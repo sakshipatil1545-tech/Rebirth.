@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blindfold Retreat | Create Your Own Light</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base & Variables */
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue-medium: #3B82F6;
+            --blue-light: #93C5FD;
+            --white: #FFFFFF;
+            --off-white: #F8FAFC;
+            --green-dark: #047857;
+            --green-medium: #10B981;
+            --green-light: #A7F3D0;
+            --yellow-dark: #D97706;
+            --yellow-medium: #FBBF24;
+            --yellow-light: #FDE68A;
+            --gray-dark: #080b0e;
+            --gray-medium: #0e0f0f;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow-heavy: 0 15px 40px rgba(0,0,0,0.12);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: var(--gray-dark);
+            background-color: var(--off-white);
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .section-white {
+            background-color: var(--white);
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .section-blue {
+            background: linear-gradient(135deg, var(--blue-light), #E0F2FE);
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .section-green {
+            background: linear-gradient(135deg, var(--green-light), #D1FAE5);
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 3.8rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--blue-dark), var(--green-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            color: var(--blue-dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(to right, var(--yellow-medium), var(--green-medium));
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--green-dark);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--gray-medium);
+            font-size: 1.1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            display: inline-block;
+        }
+
+        .section-title h2:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--blue-light);
+            transition: var(--transition);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 50px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--blue-dark);
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            color: var(--green-dark);
+        }
+
+        nav a {
+            color: var(--blue-dark);
+            text-decoration: none;
+            margin-left: 35px;
+            font-weight: 600;
+            position: relative;
+            padding: 5px 0;
+            transition: var(--transition);
+        }
+
+        nav a:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--yellow-medium);
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--green-dark);
+        }
+
+        nav a:hover:before {
+            width: 100%;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--yellow-medium), var(--green-medium));
+            color: var(--blue-dark);
+            padding: 16px 36px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-heavy);
+            background: linear-gradient(135deg, var(--yellow-dark), var(--green-dark));
+            color: white;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--blue-dark);
+            cursor: pointer;
+        }
+
+        /* Hero Section - Blue Gradient */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 140px 20px 80px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-medium));
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('image2.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+        .hero h1 {
+            background: linear-gradient(135deg, white, var(--yellow-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-highlight {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 800px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Premium Slider - White Background */
+        .slider-section {
+            position: relative;
+            overflow: hidden;
+            background-color: var(--white);
+        }
+
+        .slider-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .slider {
+            height: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-heavy);
+            position: relative;
+            border: 5px solid white;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(30, 58, 138, 0.9), transparent);
+            padding: 40px;
+            color: white;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease 0.3s;
+        }
+
+        .slide.active .slide-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: var(--transition);
+            border: 2px solid var(--blue-light);
+            font-size: 1.2rem;
+            color: var(--blue-dark);
+        }
+
+        .slider-nav:hover {
+            background: var(--yellow-light);
+            transform: translateY(-50%) scale(1.1);
+            border-color: var(--yellow-medium);
+        }
+
+        .slider-prev {
+            left: 20px;
+        }
+
+        .slider-next {
+            right: 20px;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--blue-light);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .slider-dot.active {
+            background: var(--green-medium);
+            transform: scale(1.3);
+        }
+
+        /* What This Is - Blue Gradient */
+        .what-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .what-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid;
+        }
+
+        .what-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .what-not {
+            border-top-color: var(--yellow-medium);
+        }
+
+        .what-is {
+            border-top-color: var(--green-medium);
+        }
+
+        .what-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 8px 0;
+        }
+
+        .what-item i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .what-not .what-item i {
+            color: #ef4444;
+            background: #fee2e2;
+        }
+
+        .what-is .what-item i {
+            color: var(--green-dark);
+            background: var(--green-light);
+        }
+
+        /* Experience Grid - White Background */
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .experience-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--blue-light);
+        }
+
+        .experience-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--green-medium);
+        }
+
+        .experience-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--yellow-medium), var(--green-medium));
+        }
+
+        .experience-icon {
+            font-size: 2.5rem;
+            color: var(--blue-dark);
+            margin-bottom: 20px;
+            height: 70px;
+            width: 70px;
+            background: var(--blue-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Journey Flow with Diagram - Green Gradient */
+        .journey-section {
+            text-align: center;
+        }
+
+        .journey-diagram {
+            max-width: 1000px;
+            margin: 60px auto 40px;
+            position: relative;
+        }
+
+        .journey-diagram img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: var(--shadow-heavy);
+            transition: var(--transition);
+            border: 5px solid white;
+        }
+
+        .journey-diagram img:hover {
+            transform: scale(1.01);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .journey-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .journey-step {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            border: 2px solid var(--green-light);
+        }
+
+        .journey-step:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--yellow-medium);
+        }
+
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--blue-dark);
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        .step-icon {
+            font-size: 2.5rem;
+            color: var(--green-dark);
+            margin-bottom: 20px;
+            height: 70px;
+            width: 70px;
+            background: var(--green-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Who This Is For - White Background */
+        .who-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .who-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            border: 2px solid var(--blue-light);
+        }
+
+        .who-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--yellow-medium);
+        }
+
+        .who-icon {
+            font-size: 2.5rem;
+            color: var(--blue-dark);
+            margin-bottom: 20px;
+            height: 70px;
+            width: 70px;
+            background: var(--yellow-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Benefits - Blue Gradient */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .benefit-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+            border-left: 5px solid var(--green-medium);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-left-color: var(--yellow-medium);
+        }
+
+        .benefit-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--blue-dark);
+            line-height: 1;
+            min-width: 60px;
+        }
+
+        /* Facilitator - White Background */
+        .facilitator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 50px;
+            align-items: center;
+        }
+
+        .facilitator-image {
+            position: relative;
+        }
+
+        .facilitator-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: var(--shadow-heavy);
+            border: 5px solid white;
+        }
+
+        .facilitator-image:before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: 20px;
+            bottom: 20px;
+            border: 3px solid var(--yellow-medium);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .facilitator-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--blue-light);
+            border-radius: 10px;
+            border: 2px solid var(--green-light);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--blue-dark);
+            line-height: 1;
+        }
+
+        /* Why Different - Green Gradient */
+        .different-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .different-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--green-light);
+        }
+
+        .different-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--yellow-medium);
+        }
+
+        .different-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--yellow-medium), var(--green-medium));
+        }
+
+        /* Discipline - White Background */
+        .discipline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .discipline-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            border: 2px solid var(--blue-light);
+        }
+
+        .discipline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--green-medium);
+        }
+
+        .discipline-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--green-dark);
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        /* Final Message - Blue Gradient */
+        .final-message {
+            text-align: center;
+            padding: 80px 40px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-medium));
+            border-radius: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border: 5px solid var(--yellow-light);
+        }
+
+        .final-message:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 L20,0 L20,20 Z" fill="rgba(251, 191, 36, 0.1)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .final-quote {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            position: relative;
+            z-index: 2;
+        }
+
+        .final-quote:before {
+            content: '"';
+            font-size: 5rem;
+            color: var(--yellow-light);
+            position: absolute;
+            top: -30px;
+            left: -20px;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--blue-dark), var(--green-dark));
+            color: white;
+            padding: 80px 20px 30px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-section h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--yellow-medium);
+        }
+
+        .footer-section p, .footer-section a {
+            color: #d1d5db;
+            margin-bottom: 12px;
+            display: block;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--yellow-light);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background: var(--yellow-medium);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 3.2rem;
+            }
+            
+            h2 {
+                font-size: 2.4rem;
+            }
+            
+            .slider {
+                height: 500px;
+            }
+            
+            .journey-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 90px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 30px;
+                box-shadow: var(--shadow-heavy);
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                gap: 25px;
+                border: 2px solid var(--blue-light);
+            }
+            
+            nav.active {
+                display: flex;
+            }
+            
+            nav a {
+                margin-left: 0;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            .section-white, .section-blue, .section-green {
+                padding: 80px 20px;
+            }
+            
+            .hero {
+                min-height: auto;
+                padding: 120px 20px 60px;
+            }
+            
+            .what-container, .facilitator-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .slider {
+                height: 400px;
+            }
+            
+            .slider-nav {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .journey-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            h2 {
+                font-size: 1.9rem;
+            }
+            
+            .slider {
+                height: 300px;
+            }
+            
+            .experience-grid, .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        /* Diagram Caption */
+        .diagram-caption {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray-medium);
+            font-style: italic;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="mainHeader">
+        <div class="header-container">
+            <div class="logo">
+                <img src="Chanyakyamain.png" alt="Blindfold Retreat Logo">
+                <div class="logo-text">Blindfold<span>Retreat</span></div>
+            </div>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav id="mainNav">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#journey">Journey</a>
+                <a href="#benefits">Benefits</a>
+                <a href="#contact" class="cta-button">Register Now</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section (Blue) -->
+    <section id="home" class="hero">
+        <div class="hero-content container fade-in">
+            <h1>India's First 3-Day Blindfold Retreat</h1>
+            <div class="hero-subtitle">Create Your Own Light</div>
+            
+            <div class="hero-highlight">
+                <p>A transformative residential immersion hosted by Motivational Chanakya (M. Mahendraa) — philosopher, motivational speaker, and author of The 3C Effect. Join us in Pune for a profound journey inward with pure vegetarian nourishment throughout.</p>
+            </div>
+            
+            <a href="#contact" class="cta-button">Begin Your Transformation</a>
+        </div>
+    </section>
+
+    <!-- Premium Image Slider (White) -->
+    <section class="slider-section section-white">
+        <div class="container">
+            <div class="section-title">
+                <h2>The Retreat Sanctuary</h2>
+                <p>Immerse yourself in our serene natural environment designed for deep transformation</p>
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider" id="premiumSlider">
+                    <div class="slide active">
+                        <img src="image2.jpeg" alt="Retreat Location">
+                        <div class="slide-overlay">
+                            <h3>Serene Natural Surroundings</h3>
+                            <p>Find peace in our beautiful retreat location</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="image3.jpeg" alt="Meditation Spaces">
+                        <div class="slide-overlay">
+                            <h3>Sacred Meditation Spaces</h3>
+                            <p>Designed for deep inner work and reflection</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="image4.jpeg" alt="Accommodation">
+                        <div class="slide-overlay">
+                            <h3>Comfortable Accommodation</h3>
+                            <p>Rest and rejuvenate in peaceful surroundings</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="image5.jpeg" alt="Natural Beauty">
+                        <div class="slide-overlay">
+                            <h3>Natural Healing Environment</h3>
+                            <p>Connect with nature's healing energy</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="image6.jpeg" alt="Retreat Facilities">
+                        <div class="slide-overlay">
+                            <h3>Premium Facilities</h3>
+                            <p>Everything you need for your transformation</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="image7.jpeg" alt="Program Activities">
+                        <div class="slide-overlay">
+                            <h3>Transformative Activities</h3>
+                            <p>Engage in powerful healing practices</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="slider-nav slider-prev" id="sliderPrev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-nav slider-next" id="sliderNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <div class="slider-dots" id="sliderDots">
+                    <!-- Dots will be added by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What This Is (Blue) -->
+    <section id="about" class="section-blue">
+        <div class="container">
+            <div class="section-title">
+                <h2>What This Program Is</h2>
+                <p>This is not another workshop. This is a journey to your inner self.</p>
+            </div>
+            
+            <div class="what-container">
+                <div class="what-card what-not">
+                    <h3>What It's NOT</h3>
+                    <div class="what-item">
+                        <i class="fas fa-times"></i>
+                        <span>Not a workshop</span>
+                    </div>
+                    <div class="what-item">
+                        <i class="fas fa-times"></i>
+                        <span>Not a seminar</span>
+                    </div>
+                    <div class="what-item">
+                        <i class="fas fa-times"></i>
+                        <span>Not motivation</span>
+                    </div>
+                </div>
+                
+                <div class="what-card what-is">
+                    <h3>What It IS</h3>
+                    <div class="what-item">
+                        <i class="fas fa-check"></i>
+                        <span>Something that changes you from within</span>
+                    </div>
+                    <div class="what-item">
+                        <i class="fas fa-check"></i>
+                        <span>A guided inner journey</span>
+                    </div>
+                    <div class="what-item">
+                        <i class="fas fa-check"></i>
+                        <span>Disconnect to reconnect with your truth</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Experience (White) -->
+    <section id="experience" class="section-white">
+        <div class="container">
+            <div class="section-title">
+                <h2>Core Experience</h2>
+                <p>A fully immersive retreat environment designed for deep transformation</p>
+            </div>
+            
+            <div class="experience-grid">
+                <div class="experience-card">
+                    <div class="experience-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>3 Days Residential Immersion</h3>
+                    <p>Fully immersive retreat environment designed for deep transformation</p>
+                </div>
+                
+                <div class="experience-card">
+                    <div class="experience-icon">
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                    <h3>Blindfold Rebirth Journey</h3>
+                    <p>Experience life beyond sight to awaken inner vision</p>
+                </div>
+                
+                <div class="experience-card">
+                    <div class="experience-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Silence, Nature & Awareness</h3>
+                    <p>Practices rooted in natural rhythms and conscious presence</p>
+                </div>
+                
+                <div class="experience-card">
+                    <div class="experience-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <h3>Ritual-Based Inner Cleansing</h3>
+                    <p>Ancient wisdom practices for releasing what no longer serves</p>
+                </div>
+                
+                <div class="experience-card">
+                    <div class="experience-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Vision & Life Direction Discovery</h3>
+                    <p>Uncover clarity about your authentic path forward</p>
+                </div>
+                
+                <div class="experience-card">
+                    <div class="experience-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Emotional Release & Inner Light</h3>
+                    <p>Awaken the luminous essence that has always lived within you</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey Flow with Diagram (Green) -->
+    <section id="journey" class="section-green journey-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Journey Flow</h2>
+                <p>A carefully designed 3-day transformation journey</p>
+            </div>
+            
+            <div class="journey-diagram">
+                <img src="image8.png" alt="Journey Flow Diagram">
+                <p class="diagram-caption">Visual representation of your 3-day transformation journey</p>
+            </div>
+            
+            <div class="journey-steps">
+                <div class="journey-step">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">
+                        <i class="fas fa-feather-alt"></i>
+                    </div>
+                    <h3>Day 1 – Letting Go</h3>
+                    <p>Release old patterns, emotional weight, and the inner noise that has kept you from hearing your truth. Shed the layers that no longer belong to who you're becoming.</p>
+                </div>
+                
+                <div class="journey-step">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Day 2 – Realisation</h3>
+                    <p>Cultivate awareness, clarity, and self-observation. Discover inner strength you didn't know existed. See yourself with new eyes and profound honesty.</p>
+                </div>
+                
+                <div class="journey-step">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Day 3 – Rebirth</h3>
+                    <p>Emerge with new direction, future vision, and inner alignment. Step into a version of yourself that is clear, purposeful, and authentically alive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who This Is For (White) -->
+    <section class="section-white">
+        <div class="container">
+            <div class="section-title">
+                <h2>Who This Is For</h2>
+                <p>This retreat is designed for individuals ready for deep transformation</p>
+            </div>
+            
+            <div class="who-grid">
+                <div class="who-card">
+                    <div class="who-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Seeking Deep Life Clarity</h3>
+                    <p>Those who know surface-level answers aren't enough and are ready to go deeper.</p>
+                </div>
+                
+                <div class="who-card">
+                    <div class="who-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Leaders & Professionals</h3>
+                    <p>High achievers seeking inner clarity, alignment, and authentic purpose.</p>
+                </div>
+                
+                <div class="who-card">
+                    <div class="who-icon">
+                        <i class="fas fa-pause-circle"></i>
+                    </div>
+                    <h3>Feeling Stuck</h3>
+                    <p>Anyone experiencing confusion or stagnation, ready to find their way back.</p>
+                </div>
+                
+                <div class="who-card">
+                    <div class="who-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Ready for Inner Discipline</h3>
+                    <p>Individuals willing to commit to self-honesty and personal responsibility.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits (Blue) -->
+    <section id="benefits" class="section-blue">
+        <div class="container">
+            <div class="section-title">
+                <h2>Key Benefits</h2>
+                <p>Transformational outcomes you'll experience after your rebirth journey</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-number">01</div>
+                    <div>
+                        <h3>Deep Life Clarity</h3>
+                        <p>See through confusion and gain crystal-clear understanding of your life's purpose and direction.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">02</div>
+                    <div>
+                        <h3>Stronger Inner Stability</h3>
+                        <p>Develop an unshakeable foundation within to remain centered even amidst life's storms.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">03</div>
+                    <div>
+                        <h3>Emotional Lightness</h3>
+                        <p>Release heavy emotional baggage and move through life with renewed lightness.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">04</div>
+                    <div>
+                        <h3>Clear Personal Direction</h3>
+                        <p>Find your true north and move forward with conviction toward your authentic life.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">05</div>
+                    <div>
+                        <h3>Renewed Sense of Purpose</h3>
+                        <p>Rediscover your 'why' and connect with a deep, meaningful purpose.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">06</div>
+                    <div>
+                        <h3>Inner Discipline & Focus</h3>
+                        <p>Cultivate mental mastery and develop the ability to concentrate deeply.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facilitator (White) -->
+    <section class="section-white">
+        <div class="container">
+            <div class="section-title">
+                <h2>Your Guide</h2>
+                <p>Meet the facilitator of this transformative journey</p>
+            </div>
+            
+            <div class="facilitator-container">
+                <div class="facilitator-image">
+                    <img src="image1.jpg" alt="Motivational Chanakya (M. Mahendraa)">
+                </div>
+                
+                <div class="facilitator-info">
+                    <h3>Motivational Chanakya (M. Mahendraa)</h3>
+                    <p><strong>Philosopher, Motivational Speaker, Author of The 3C Effect</strong></p>
+                    <p>With over 5 years as a motivational speaker and extensive experience mentoring entrepreneurs and individuals through personal transformation, I've witnessed thousands of breakthroughs.</p>
+                    <p>I believe real transformation happens when you feel held, seen, and free to let go completely. This retreat is designed to create that safe, structured space for your inner unlock.</p>
+                    
+                    <div class="facilitator-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">5+</div>
+                            <p>Years Experience</p>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1000+</div>
+                            <p>Transformations</p>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">8+</div>
+                            <p>Years Mentoring</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Different (Green) -->
+    <section class="section-green">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why This Program Is Different</h2>
+            </div>
+            
+            <div class="different-grid">
+                <div class="different-card">
+                    <h3>Blindfold-Based Immersive Experience</h3>
+                    <p>A unique methodology that removes external distractions, allowing profound inner sight to emerge naturally.</p>
+                </div>
+                
+                <div class="different-card">
+                    <h3>Limited Seats, High Discipline</h3>
+                    <p>Intimate group size ensures deep attention and maintains the sacred container necessary for profound inner work.</p>
+                </div>
+                
+                <div class="different-card">
+                    <h3>Nature-Led Transformation</h3>
+                    <p>Healing happens in harmony with natural elements, rhythms, and the wisdom of the earth itself.</p>
+                </div>
+                
+                <div class="different-card">
+                    <h3>Experience Over Information</h3>
+                    <p>Real transformation comes from lived experience, not from gathering more knowledge. Feel it. Embody it. Become it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discipline (White) -->
+    <section class="section-white">
+        <div class="container">
+            <div class="section-title">
+                <h2>Discipline & Commitment</h2>
+                <p>This journey requires your full presence and complete commitment</p>
+            </div>
+            
+            <div class="discipline-grid">
+                <div class="discipline-card">
+                    <div class="discipline-number">01</div>
+                    <h3>Digital Detox</h3>
+                    <p>Disconnect from devices, notifications, and the digital world to fully immerse in your inner landscape.</p>
+                </div>
+                
+                <div class="discipline-card">
+                    <div class="discipline-number">02</div>
+                    <h3>Silence & Self-Observation</h3>
+                    <p>Honor the power of silence. Observe yourself with compassionate awareness and radical honesty.</p>
+                </div>
+                
+                <div class="discipline-card">
+                    <div class="discipline-number">03</div>
+                    <h3>Respect for Process</h3>
+                    <p>Trust the journey, honor the wisdom of those guiding you, and embrace each moment with openness.</p>
+                </div>
+                
+                <div class="discipline-card">
+                    <div class="discipline-number">04</div>
+                    <h3>Limited Participants</h3>
+                    <p>This exclusive experience is reserved for those truly ready to commit to their transformation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Message (Blue) -->
+    <section class="section-blue">
+        <div class="container">
+            <div class="final-message">
+                <div class="final-quote">
+                    You don't find light outside. You create it inside.
+                </div>
+                <h3 style="color: var(--yellow-light); margin-bottom: 30px;">Create Your Own Light</h3>
+                <p style="color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto 40px;">
+                    Your rebirth awaits. The light has always been within you — now is the time to create it, claim it, and live from it.
+                </p>
+                <a href="#contact" class="cta-button">Begin Your Transformation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Blindfold Retreat</h3>
+                <p>India's first 3-day blindfold retreat. A transformative residential immersion designed to facilitate deep, permanent transformation from within.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Pune, India</p>
+                <p><i class="fas fa-envelope" style="margin-right: 10px;"></i> info@blindfoldretreat.com</p>
+                <p><i class="fas fa-phone" style="margin-right: 10px;"></i> +91 XXXXX XXXXX</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#about">About the Program</a>
+                <a href="#experience">Core Experience</a>
+                <a href="#journey">Journey Flow</a>
+                <a href="#benefits">Key Benefits</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2025 Blindfold Retreat. All rights reserved. | Create Your Own Light</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+        
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            menuToggle.innerHTML = mainNav.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close menu on link click
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Header scroll effect
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if(window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            } else {
+                header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+        
+        // Premium Slider
+        const slider = document.getElementById('premiumSlider');
+        const slides = document.querySelectorAll('.slide');
+        const sliderDots = document.getElementById('sliderDots');
+        const sliderPrev = document.getElementById('sliderPrev');
+        const sliderNext = document.getElementById('sliderNext');
+        let currentSlide = 0;
+        let slideInterval;
+        
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.className = 'slider-dot';
+            if(index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            sliderDots.appendChild(dot);
+        });
+        
+        // Slider functions
+        function goToSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            sliderDots.children[currentSlide].classList.remove('active');
+            
+            currentSlide = index;
+            if(currentSlide >= slides.length) currentSlide = 0;
+            if(currentSlide < 0) currentSlide = slides.length - 1;
+            
+            slides[currentSlide].classList.add('active');
+            sliderDots.children[currentSlide].classList.add('active');
+            resetInterval();
+        }
+        
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+        
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+        
+        function startInterval() {
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+        
+        function resetInterval() {
+            clearInterval(slideInterval);
+            startInterval();
+        }
+        
+        // Event listeners
+        sliderPrev.addEventListener('click', prevSlide);
+        sliderNext.addEventListener('click', nextSlide);
+        
+        // Auto-slide and hover pause
+        startInterval();
+        slider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+        slider.addEventListener('mouseleave', startInterval);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowLeft') prevSlide();
+            if(e.key === 'ArrowRight') nextSlide();
+        });
+        
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all sections for animation
+        document.querySelectorAll('.section-white, .section-blue, .section-green').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Add hover effect to journey diagram
+        const journeyDiagram = document.querySelector('.journey-diagram img');
+        if(journeyDiagram) {
+            journeyDiagram.addEventListener('mouseenter', () => {
+                journeyDiagram.style.transform = 'scale(1.02)';
+            });
+            journeyDiagram.addEventListener('mouseleave', () => {
+                journeyDiagram.style.transform = 'scale(1)';
+            });
+        }
+    </script>
+</body>
+</html>
